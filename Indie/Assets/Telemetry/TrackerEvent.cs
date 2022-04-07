@@ -1,5 +1,18 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
+using System;
+using System.IO;
 
+
+
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.EventSystems;
+using System.IO;
+using UAJ;
 
 namespace UAJ
 {
@@ -17,6 +30,18 @@ namespace UAJ
         {
             return JsonConvert.SerializeObject(this);
         }
+        public string toBSON()
+        {
+            string res;
+            using (MemoryStream ms = new MemoryStream())
+            using (Newtonsoft.Json.Bson.BsonWriter datawriter = new Newtonsoft.Json.Bson.BsonWriter(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(datawriter, this);
+                res =  Convert.ToBase64String(ms.ToArray());
+            }
+            return res;
+        }
     }
     //Factory.instance().createDeath()
     class StartRoundEvent :TrackerEvent{
@@ -25,7 +50,6 @@ namespace UAJ
 
     class EndRoundEvent :TrackerEvent{
         public EndRoundEvent(ulong timestamp) : base(timestamp, "EndRoundEvent"){}
-
     }
 
     class StartGameEvent :TrackerEvent{
