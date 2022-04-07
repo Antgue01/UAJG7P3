@@ -4,16 +4,6 @@ using System;
 using System.IO;
 
 
-
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.EventSystems;
-using System.IO;
-using UAJ;
-
 namespace UAJ
 {
     public abstract class TrackerEvent{
