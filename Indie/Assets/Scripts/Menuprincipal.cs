@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using System.IO;
+using UAJ;
 
 public class Menuprincipal : MonoBehaviour
 {
@@ -13,7 +14,10 @@ public class Menuprincipal : MonoBehaviour
 
     void Start()
     {
-        
+
+        TrackerEvent e = new DeathEvent(100).withID(9); ;
+        Debug.Log(e.toJSON());
+
         if (!File.Exists("partida.txt"))     //Si no existe continuar no debe salir y activo el nivel 1
         {
             Escena = 1;

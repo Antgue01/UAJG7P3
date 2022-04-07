@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-
+using UAJ;
 
 /// <summary>
 /// Interfaz que determina los metodos que toda clase que determine los eventos que vamos a analizar durante la ejecucion
 /// </summary>
 public interface ITrackerAsset
 {
-    public bool init(string configFilePath);
-    public bool accept(/*TrackerEvent event*/ string tipo);
+    bool init(string configFilePath);
+    bool accept(TrackerEvent e);
 }
 
 /// <summary>
@@ -48,9 +48,9 @@ public class ProgressionTracker : ITrackerAsset
     /// Metodo que recibe un evento y determina si durante esta ejecucion estamos interesados en tratar esta clase de evento que nos llega
     /// </summary>
     /// <returns> bool que determina si nos interesa analizar el tipo de evento que nos llega </returns>
-    public bool accept(/*TrackerEvent event*/ string tipo)
+    public bool accept(TrackerEvent e)
     {
-        string clave = tipo;
+        string clave = e._eventName;
         //clave = obtener clave del trackerEvent o de alguna forma
         return trackedEvents.ContainsKey(clave) && trackedEvents[clave];
     }
