@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UAJ;
 using UnityEngine;
 
 
@@ -8,10 +7,7 @@ public class Perder : MonoBehaviour {
 
     void Start()
     {
-        DeathEvent e = new DeathEvent(2);
-        ServerPersistance p = new ServerPersistance("81.32.92.63:1337", new JSONSerializer());
-        p.Send(e);
-        p.Flush();
+ 
     }
     void Update()
     {

@@ -1,14 +1,7 @@
-﻿using Models;
-using Proyecto26;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Net;
-using System.Net.Http;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace UAJ
@@ -18,20 +11,20 @@ namespace UAJ
     {
         public ServerPersistance(string server, ISerializer serializer)
         {
-
             _server = server;
             _serializer = serializer;
             _events = new Queue<TrackerEvent>();
         }
         public void Flush()
         {
-            Thread t = new Thread(auxFlush);
-            t.Start();
+            //Thread t = new Thread(auxFlush);
+            //t.Start();
+            auxFlush();
         }
         void auxFlush()
         {
 
-            var api = "http://uaj.fdi.ucm.es/c2122/telemetry/grupo07";
+            var api = _server;
 
             string message = "{[";
             lock (_events)
@@ -40,15 +33,31 @@ namespace UAJ
                 {
                     TrackerEvent e = _events.Dequeue();
                     message += _serializer.Serialize(e) + ",";
-
-
                 }
             }
             message = message.Remove(message.Length - 1);
             message += "]}";
-            RestClient.PostArray<Post>(api + "/posts",message).Then(response => { Debug.Log(response); });
+            
+            var url = api;
 
+            var request = WebRequest.Create(url);
+            request.Method = "POST";
 
+            request.ContentType = "application/x-www-form-urlencoded";
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(Encoding.UTF8.GetBytes(message), 0, message.Length);
+            }
+
+            var webResponse = request.GetResponse();
+            
+            
+            var webStream = webResponse.GetResponseStream();
+
+            var reader = new StreamReader(webStream);
+            var data = reader.ReadToEnd();
+
+            Debug.Log(data);
 
         }
 

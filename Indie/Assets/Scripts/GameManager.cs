@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using UAJ;
 
 public class GameManager : MonoBehaviour
 {
@@ -50,6 +51,11 @@ public class GameManager : MonoBehaviour
         coleccionables = 0;
         coleccionablesConLosQueEmpezamos = 0;
 
+
+        DeathEvent e = new DeathEvent(2);
+        ServerPersistance p = new ServerPersistance("http://192.168.1.44/post", new JSONSerializer());
+        p.Send(e);
+        p.Flush();
     }
 
     void Update()
