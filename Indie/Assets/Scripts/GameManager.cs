@@ -31,6 +31,11 @@ public class GameManager : MonoBehaviour
     {
         if (instance == null)
         {
+            Tracker.Init();
+            // DeathEvent e = new DeathEvent();
+            // ServerPersistance p = new ServerPersistance("http://192.168.1.44/post", new JSONSerializer());
+            // p.Send(e);
+            // p.Flush();
             instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
@@ -50,12 +55,6 @@ public class GameManager : MonoBehaviour
         reproducirAnimacionTarjeta = true;
         coleccionables = 0;
         coleccionablesConLosQueEmpezamos = 0;
-
-
-        DeathEvent e = new DeathEvent(2);
-        ServerPersistance p = new ServerPersistance("http://192.168.1.44/post", new JSONSerializer());
-        p.Send(e);
-        p.Flush();
     }
 
     void Update()

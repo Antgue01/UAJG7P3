@@ -2,13 +2,14 @@
 using System.IO;
 using System.Collections.Generic;
 using UAJ;
+using UnityEngine;
 
 /// <summary>
 /// Interfaz que determina los metodos que toda clase que determine los eventos que vamos a analizar durante la ejecucion
 /// </summary>
 public interface ITrackerAsset
 {
-    bool init(string configFilePath);
+    bool init(string[] config);
     bool accept(TrackerEvent e);
 }
 
@@ -25,15 +26,17 @@ public class ProgressionTracker : ITrackerAsset
     /// Metodo que realiza la inicializacion de la clase
     /// </summary>
     /// <returns>Bool que indica si la inicializacion se ha hecho con exito o no</returns>
-    public bool init(string configFilePath)
+    public bool init(string[] config)
     {
         trackedEvents = new Dictionary<string, bool>();
         try
         {
             //Leemos todas las lineas del fichero y por cada una de ellas determinamos un nuevo tipo de evento a analizar durante esta ejecucion
-            string[] tiposEventos = File.ReadAllLines(configFilePath);
-            foreach (string tipo in tiposEventos)
+            foreach (string tipo in config)
+            {
+                Debug.Log(tipo);
                 trackedEvents.Add(tipo, true);
+            }
         }
 
         //En caso de que haya habido algun problema a la hora de leer indicamos que la inicializacion no ha sido posible

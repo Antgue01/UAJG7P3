@@ -1,0 +1,28 @@
+{
+  "timeType": "POSIX",
+  "persistence": [{
+    "type": "Server",
+    "param":"http://192.168.1.44/post",
+    "serializer": "Json"
+  },
+    {
+      "type": "Disk",
+      "param":"default",
+      "serializer": "Bson"
+    }],
+  "activeTrackers": [
+    {
+      "type": "Progression",
+      "enabled": [
+        "StartRoundEvent",
+        "EndRoundEvent",
+        "StartGameEvent",
+        "EndGameEvent",
+        "DeathEvent",
+        "UseObjectEvent",
+        "PlayerPositionEvent"
+      ]
+    }
+  ]
+}
+

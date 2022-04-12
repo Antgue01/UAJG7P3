@@ -12,6 +12,8 @@ namespace UAJ
     {
         public DiskPersistance(string path,ISerializer serializer)
         {
+            if (path == "default")
+                path = Application.persistentDataPath;
             _path = path;
             _serializer = serializer;
             _events = new Queue<TrackerEvent>();

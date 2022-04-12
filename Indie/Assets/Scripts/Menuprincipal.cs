@@ -14,8 +14,6 @@ public class Menuprincipal : MonoBehaviour
 
     void Start()
     {
-        TrackerEvent e = new DeathEvent(100).withID(9);
-        Debug.Log(e.toBSON());
 
         if (!File.Exists("partida.txt"))     //Si no existe continuar no debe salir y activo el nivel 1
         {
