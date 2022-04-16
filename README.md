@@ -7,17 +7,17 @@
 Objetivo : Comprobar si el diseño del nivel está balanceado
 -------------------------------------
 A continuación se muestran las preguntas que se pretenden responder a través del sistema de telemetría y los eventos de los que vamos a utilizar para ello:
-- ¿Existen zonas en el mapa a las que los jugadores no van?
-    - Distribución de tiempo en cada habitación:
+- **¿Existen zonas en el mapa a las que los jugadores no van?:**
+    - *Distribución de tiempo en cada habitación:*
         Vamos a utilizar un evento periódico que contenga información sobre la posición del jugador en casillas.
-    - Frecuencia de uso de cada uno de los objetos que generan caos en el nivel:
+    - *Frecuencia de uso de cada uno de los objetos que generan caos en el nivel:*
         Vamos a utilizar un evento instantaneo que se va a lanzar cada vez que se use un objeto. En dicho evento se va a almacenar un ID que lo identifique.
-- ¿Existen zonas especialmente difíciles en el nivel?
-    Vamos a analizar el número de muertes que ocurren en cada una de las zonas del nivel. Para ello, se va a utilizar un evento instantaneo que se dispare en el momento en el que un enemigo mate al jugador, donde se va a almacenar el id propio de cada uno de los enemigos. 
-- ¿El jugador ha tenido dificultades para pasarse el nivel?
-    - Tiempo medio que tarda el jugador en pasarse el nivel
+- **¿Existen zonas especialmente difíciles en el nivel?:**
+    - Vamos a analizar el número de muertes que ocurren en cada una de las zonas del nivel. Para ello, se va a utilizar un evento instantaneo que se dispare en el momento en el que un enemigo mate al jugador, donde se va a almacenar el id propio de cada uno de los enemigos.
+- **¿El jugador ha tenido dificultades para pasarse el nivel?**
+    - *Tiempo medio que tarda el jugador en pasarse el nivel*
         Para analizar esto vamos a hacer uso de los eventos de inicio y final de sesion.
-    - Número de vidas utilizadas por nivel
+    - *Número de vidas utilizadas por nivel:*
         Para analizar esto vamos a hacer uso del evento de muerte descrito anteriormente .
 
 
