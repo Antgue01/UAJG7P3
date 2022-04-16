@@ -41,7 +41,7 @@ namespace UAJ
     //Factory.instance().createDeath()
     class StartRoundEvent : TrackerEvent
     {
-        private string _level;
+        public string _level;
         public StartRoundEvent(string level) : base("StartRoundEvent")
         {
             _level = level;
@@ -50,7 +50,7 @@ namespace UAJ
 
     class EndRoundEvent : TrackerEvent
     {
-        private string _level;
+        public string _level;
         public EndRoundEvent(string level) : base("EndRoundEvent")
         {
             _level = level;
