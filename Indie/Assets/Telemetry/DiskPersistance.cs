@@ -13,7 +13,7 @@ namespace UAJ
         public DiskPersistance(string path,ISerializer serializer)
         {
             if (path == "default")
-                path = Application.persistentDataPath;
+                path = Application.persistentDataPath + "/log.txt";
             _path = path;
             _serializer = serializer;
             _events = new Queue<TrackerEvent>();
@@ -22,8 +22,6 @@ namespace UAJ
         {
             Thread t = new Thread(auxFlush);
             t.Start();
-
-
         }
 
         public void Send(TrackerEvent trackerEvent)

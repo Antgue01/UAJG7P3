@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 
 namespace UAJ
@@ -26,10 +27,10 @@ namespace UAJ
         }
         public void Flush()
         {
-            //Thread t = new Thread(auxFlush);
-            //t.Start();
-            auxFlush();
+            Thread t = new Thread(auxFlush);
+            t.Start();
         }
+        
         void auxFlush()
         {
             int i = 0;

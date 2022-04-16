@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             Tracker.Init();
+            StartCoroutine(Tracker.FlushEvents());
             instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
@@ -51,9 +52,6 @@ public class GameManager : MonoBehaviour
         reproducirAnimacionTarjeta = true;
         coleccionables = 0;
         coleccionablesConLosQueEmpezamos = 0;
-
-
-       
     }
 
     void Update()
@@ -318,5 +316,11 @@ public class GameManager : MonoBehaviour
     public void MostrarTextoEnPantalla(float delay, string texto)
     {
         uIManager.MostrarTexto(delay, texto);
+    }
+
+    void OnDestroy()
+    {
+        if(instance == this)
+            Tracker.End();
     }
 }
