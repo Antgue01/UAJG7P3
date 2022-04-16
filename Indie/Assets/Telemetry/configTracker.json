@@ -1,14 +1,20 @@
 {
   "timeType": "POSIX",
+  "flushTime": 2,
   "persistence": [{
     "type": "Server",
-    "param":"http://192.168.1.44/post",
+    "paramList": [
+      "http://uaj.fdi.ucm.es/c2122/telemetry/grupo07",
+      "8f622af3c542988ad74e03204b5d60c5"
+    ],
     "serializer": "Json"
   },
     {
       "type": "Disk",
-      "param":"default",
-      "serializer": "Bson"
+      "paramList": [
+        "default"
+      ],
+      "serializer": "Json"
     }],
   "activeTrackers": [
     {
