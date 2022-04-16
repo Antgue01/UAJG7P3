@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using System;
 using System.IO;
+using UnityEngine;
 
 
 namespace UAJ
@@ -40,15 +41,19 @@ namespace UAJ
     //Factory.instance().createDeath()
     class StartRoundEvent : TrackerEvent
     {
-        public StartRoundEvent() : base("StartRoundEvent")
+        private string _level;
+        public StartRoundEvent(string level) : base("StartRoundEvent")
         {
+            _level = level;
         }
     }
 
     class EndRoundEvent : TrackerEvent
     {
-        public EndRoundEvent() : base("EndRoundEvent")
+        private string _level;
+        public EndRoundEvent(string level) : base("EndRoundEvent")
         {
+            _level = level;
         }
     }
 
@@ -68,31 +73,27 @@ namespace UAJ
 
     class DeathEvent : TrackerEvent
     {
-        public int _enemyID { get; set; }
+        public float _x;
+        public float _y;
+        public float _z;
+        public string _id;
 
-        public DeathEvent() : base("DeathEvent")
+        public DeathEvent(Vector3 position, string id) : base("DeathEvent")
         {
-        }
-
-        public DeathEvent withID(int id)
-        {
-            _enemyID = id;
-            return this;
+            _x = position.x;
+            _y = position.y;
+            _z = position.z;
+            _id = id;
         }
     }
 
     class UseObjectEvent : TrackerEvent
     {
-        public int _objectID { get; set; }
+        public string _objectID { get; set; }
 
-        public UseObjectEvent() : base("UseObjectEvent")
-        {
-        }
-
-        public UseObjectEvent withID(int id)
+        public UseObjectEvent(string id) : base("UseObjectEvent")
         {
             _objectID = id;
-            return this;
         }
     }
 
@@ -102,16 +103,11 @@ namespace UAJ
         public float _y { get; set; }
         public float _z { get; set; }
 
-        public PlayerPositionEvent() : base("PlayerPositionEvent")
+        public PlayerPositionEvent(Vector3 position) : base("PlayerPositionEvent")
         {
-        }
-
-        PlayerPositionEvent withPosition(float x, float y, float z)
-        {
-            _x = x;
-            _y = y;
-            _z = z;
-            return this;
+            _x = position.x;
+            _y = position.y;
+            _z = position.z;
         }
     }
 }

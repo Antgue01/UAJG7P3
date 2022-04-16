@@ -14,6 +14,7 @@ public class Interaccion : MonoBehaviour
     public string descripcion;
     public GameObject interaccion;
     movimiento player;
+    [SerializeField] private string id;
     
 
     private void Start()
