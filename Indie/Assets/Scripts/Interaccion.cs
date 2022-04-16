@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UAJ;
 
 public class Interaccion : MonoBehaviour
 {
@@ -113,6 +114,7 @@ public class Interaccion : MonoBehaviour
     private void Accion()
     {
         Debug.Log("Interactuado");
+        Tracker.TrackEvent(new UseObjectEvent(id));
 
         interaccion.SetActive(true);
         //Resetea la carga

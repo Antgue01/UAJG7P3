@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     UIManager uIManager;
     AudioManager audioManager;
 
-   public int coleccionables;
+    public int coleccionables;
     int coleccionablesConLosQueEmpezamos;
 
     //Al pasar de escena se debe sumar 1 a esta variable
@@ -85,14 +85,14 @@ public class GameManager : MonoBehaviour
     //Llega una nueva cantidad de caos generado, guardamos el valor actual lo mandamos al UIManager para que lo muestre
     public void GenerarCaos(float nuevocaosgenerado)
     {
-        
+
         Caos = Caos + nuevocaosgenerado;
         uIManager.AumentaCaos(Caos);
         //AJ
         if (Caos >= maxCaos)
         {
             Lead.enabled = true;
-           
+
         }
     }
 
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("llega " + jugador);
         disfrazActual = jugador;
-       
+
 
         uIManager.Detección(disfrazActual);
     }
@@ -165,12 +165,14 @@ public class GameManager : MonoBehaviour
     }
 
     public void CargarEscena(int escenaBuild)
-    {   SceneManager.LoadScene(escenaBuild);
+    {
+        SceneManager.LoadScene(escenaBuild);
+        Tracker.TrackEvent(new StartRoundEvent(SceneManager.GetActiveScene().name));
         CurrentScene = escenaBuild;
-    
+          
         subirAscensor = false;
         reproducirAnimacionTarjeta = true;
-       
+
 
         Debug.Log("escena: " + CurrentScene);
 
@@ -237,10 +239,10 @@ public class GameManager : MonoBehaviour
     {
         coleccionablesConLosQueEmpezamos = coleccionables;
         Debug.Log("original" + CurrentScene);
+        Tracker.TrackEvent(new EndRoundEvent(SceneManager.GetActiveScene().name));
         CurrentScene++;
         Debug.Log("nueva" + CurrentScene);
         ActualizarDisfraz();
-
         CargarEscena(CurrentScene);
     }
     public void SaltarEscena(int sig)
@@ -259,7 +261,7 @@ public class GameManager : MonoBehaviour
     public void GuardaPartida()
     {
         //guardamos la escena actual
-        
+
         StreamWriter guardado = new StreamWriter("partida.txt");
         guardado.WriteLine(CurrentScene);
 
@@ -320,7 +322,7 @@ public class GameManager : MonoBehaviour
 
     void OnDestroy()
     {
-        if(instance == this)
+        if (instance == this)
             Tracker.End();
     }
 }
