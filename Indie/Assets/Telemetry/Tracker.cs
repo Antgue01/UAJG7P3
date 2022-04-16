@@ -45,7 +45,7 @@ namespace UAJ
 
         private static float startTime;
 
-        private static float flushTime;
+        public static float flushTime { get; private set; }
 
         private static bool running = false;
 

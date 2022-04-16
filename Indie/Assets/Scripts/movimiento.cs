@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UAJ;
 using UnityEngine;
 
 public class movimiento : MonoBehaviour
@@ -20,7 +21,8 @@ public class movimiento : MonoBehaviour
         move = true;
       //  GameManager.instance.ReproducirSonido("Ascensor");
         paso = false;
-        
+
+        StartCoroutine(MovementEvent());
     }
 
     void Update()
@@ -90,5 +92,20 @@ public class movimiento : MonoBehaviour
     void CambioPaso()
     {
         paso = !paso;
+    }
+
+
+    IEnumerator MovementEvent()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Tracker.flushTime/4);
+            Tracker.TrackEvent(new PlayerPositionEvent(transform.position));
+        }
+    }
+
+    void OnDestroy()
+    {
+        StopCoroutine(MovementEvent());
     }
 }
