@@ -1,0 +1,34 @@
+{
+  "timeType": "POSIX",
+  "flushTime": 2,
+  "persistence": [{
+    "type": "Server",
+    "paramList": [
+      "http://uaj.fdi.ucm.es/c2122/telemetry/grupo07",
+      "8f622af3c542988ad74e03204b5d60c5"
+    ],
+    "serializer": "Json"
+  },
+    {
+      "type": "Disk",
+      "paramList": [
+        "default"
+      ],
+      "serializer": "Json"
+    }],
+  "activeTrackers": [
+    {
+      "type": "Progression",
+      "enabled": [
+        "StartRoundEvent",
+        "EndRoundEvent",
+        "StartGameEvent",
+        "EndGameEvent",
+        "DeathEvent",
+        "UseObjectEvent",
+        "PlayerPositionEvent"
+      ]
+    }
+  ]
+}
+
