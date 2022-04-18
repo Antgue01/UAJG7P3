@@ -7,6 +7,7 @@ namespace UAJ
     public interface ISerializer
     {
         string Serialize(TrackerEvent e);
+        string getFormatName();
     }
 
 }

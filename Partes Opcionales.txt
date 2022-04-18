@@ -1,0 +1,11 @@
+Serialización y persistencia en una hebra independiente de la del videojuego.
+
+Añadir al menos otro medio de serialización (CSV, binario. . . ), configurable desde
+código.
+
+Añadir el envío de trazas a un servidor web (se proporcionará uno básico para simular
+el envío).
+
+Posibilidad de poder desactivar el seguimiento de determinados tipos de eventos.
+
+Configuración del sistema de telemetría por datos (fichero de configuración, configuración desde el editor de Unity. . . )

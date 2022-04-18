@@ -7,6 +7,11 @@ namespace UAJ
 
     public class BSONSerializer : ISerializer
     {
+        public string getFormatName()
+        {
+            return "BSON";
+        }
+
         public string Serialize(TrackerEvent e)
         {
             return e.toBSON();

@@ -30,42 +30,51 @@ namespace UAJ
             Thread t = new Thread(auxFlush);
             t.Start();
         }
-        
+
         void auxFlush()
         {
+
             int i = 0;
-            string message = "[{";
+            string message = "[";
             lock (_events)
             {
-                //como el server espera un array en formato JSON se pasa lo que sea que venga (cualquier formato) a JSON con el formato
-                //[
-                //  {0:"lo que sea en el formato que sea"}
-                //  {1:"lo que sea en el formato que sea"}
-                //]
-                while (_events.Count > 0)
+                if (_events.Count > 0)
                 {
-                    TrackerEvent e = _events.Dequeue();
-                    string serializedEvent = _serializer.Serialize(e);
 
-                    message += "\"" + i.ToString() + "\":\"" + serializedEvent.Replace("\"", "\\\"") + "\",";
-                    ++i;
+                    //como el server espera un array en formato JSON se pasa lo que sea que venga (cualquier formato) a JSON con el formato
+                    //[
+                    //  {0:"lo que sea en el formato que sea"}
+                    //  {1:"lo que sea en el formato que sea"}
+                    //]
+                    while (_events.Count > 0)
+                    {
+                        TrackerEvent e = _events.Dequeue();
+                        string serializedEvent = _serializer.Serialize(e);
+
+                        message += "{\"" + _serializer.getFormatName() + "\":\"" + serializedEvent.Replace("\"", "\\\"") + "\"},";
+                        ++i;
+                    }
+
+                    message = message.Remove(message.Length - 1);
+                    message += "]";
                 }
+
             }
-            message = message.Remove(message.Length - 1);
-            message += "}]";
+            if (message != "[")
+            {
 
+                WebRequest request = WebRequest.Create(_server);
+                request.Method = "POST";
 
-            WebRequest request = WebRequest.Create(_server);
-            request.Method = "POST";
+                if (_key != null && _key != "")
+                    request.Headers.Add("X-API-Key", _key);
+                request.ContentType = "application/json";
+                Stream stream = request.GetRequestStream();
+                stream.Write(Encoding.UTF8.GetBytes(message), 0, message.Length);
+                //mandamos el mensaje
+                request.GetResponse();
 
-            if (_key != null && _key != "")
-                request.Headers.Add("X-API-Key", _key);
-            request.ContentType = "application/json";
-            Stream stream = request.GetRequestStream();
-            stream.Write(Encoding.UTF8.GetBytes(message), 0, message.Length);
-            //mandamos el mensaje
-            request.GetResponse();
-
+            }
 
         }
 

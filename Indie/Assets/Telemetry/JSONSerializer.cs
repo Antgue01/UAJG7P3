@@ -7,6 +7,11 @@ namespace UAJ
 
     public class JSONSerializer : ISerializer
     {
+        public string getFormatName()
+        {
+            return "JSON";
+        }
+
         public string Serialize(TrackerEvent e)
         {
             return e.toJSON();

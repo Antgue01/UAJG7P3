@@ -30,7 +30,6 @@ namespace UAJ
                 public List<string> enabled;
             }
             
-            public string timeType;
 
             public float flushTime;
 
@@ -45,7 +44,6 @@ namespace UAJ
 
         private static string _sessionId;
 
-        private static string _timeType;
 
         private static float _startTime;
 
@@ -91,13 +89,7 @@ namespace UAJ
             string json = File.ReadAllText(path);
             
             TrackerConfig config = JsonUtility.FromJson<TrackerConfig>(json);
-
-            _timeType = config.timeType;
-
             flushTime = config.flushTime;
-            
-            Debug.Log(_timeType);
-            
             Debug.Log(flushTime.ToString());
 
             foreach (TrackerConfig.PersistanceConfig pC in config.persistence)
@@ -174,7 +166,6 @@ namespace UAJ
 
         private static void DefaultInit()
         {
-            _timeType = "POSIX";
             flushTime = 2f;
             _persistance.Add(new ServerPersistance("http://192.168.1.44/post", new JSONSerializer()));
             _persistance.Add(new DiskPersistance(Application.persistentDataPath, new BSONSerializer()));
@@ -217,18 +208,8 @@ namespace UAJ
 
         public static string GetCurrentTelemetryTime()
         {
-            string ret = "";
-            switch (_timeType)
-            {
-                case "POSIX":
-                    ret = "POSIX: "+ DateTimeOffset.Now.ToUnixTimeSeconds().ToString() + " " + DateTime.Now.ToString();
-                    break;
-                case "UNITY":
-                    ret = "UNITY " + (Time.time - _startTime).ToString() + " " + DateTime.Now.ToString();
-                    break;
-            }
+            return DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
 
-            return ret;
         }
 
         public static string GetSessionId()
