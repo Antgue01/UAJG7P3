@@ -1,7 +1,7 @@
 Serialización y persistencia en una hebra independiente de la del videojuego.
 
 Añadir al menos otro medio de serialización (CSV, binario. . . ), configurable desde
-código.
+código. (BSON)
 
 Añadir el envío de trazas a un servidor web (se proporcionará uno básico para simular
 el envío).
