@@ -9,12 +9,14 @@ namespace UAJ
 {
     public abstract class TrackerEvent
     {
+        public string _sessionId { get; private set; }
         public string _timestamp { get; private set; }
         public string _eventName { get; private set; }
 
         public TrackerEvent(string name)
         {
             _timestamp = Tracker.GetCurrentTelemetryTime();
+            _sessionId = Tracker.GetSessionId();
             _eventName = name;
         }
 

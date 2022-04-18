@@ -167,7 +167,7 @@ public class GameManager : MonoBehaviour
     public void CargarEscena(int escenaBuild)
     {
         SceneManager.LoadScene(escenaBuild);
-        Tracker.TrackEvent(new StartRoundEvent(SceneManager.GetSceneAt(escenaBuild).name));
+        Tracker.TrackEvent(new StartRoundEvent(SceneManager.GetSceneByBuildIndex(escenaBuild).name));
         CurrentScene = escenaBuild;
           
         subirAscensor = false;

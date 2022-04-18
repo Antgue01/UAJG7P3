@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using Newtonsoft.Json;
 using UAJ;
 using UnityEngine;
@@ -41,13 +43,15 @@ namespace UAJ
 
         private static List<IPersistance> _persistance = new List<IPersistance>();
 
-        private static string timeType;
+        private static string _sessionId;
 
-        private static float startTime;
+        private static string _timeType;
+
+        private static float _startTime;
 
         public static float flushTime { get; private set; }
 
-        private static bool running = false;
+        private static bool _running = false;
 
         public static void Init()
         {
@@ -59,10 +63,23 @@ namespace UAJ
                 DefaultInit();
             }
 
-            startTime = Time.time;
-            running = true;
+            _startTime = Time.time;
+
+            StringBuilder sb = new StringBuilder();
+            using (var hash = SHA256.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+                byte[] result = hash.ComputeHash(enc.GetBytes(DateTimeOffset.Now.ToUnixTimeSeconds().ToString()));
+
+                foreach (byte b in result)
+                {
+                    sb.Append(b.ToString("x2"));
+                }
+            }
+
+            _sessionId = sb.ToString();
+            _running = true;
             TrackEvent(new StartGameEvent());
-             
         }
 
 
@@ -75,11 +92,11 @@ namespace UAJ
             
             TrackerConfig config = JsonUtility.FromJson<TrackerConfig>(json);
 
-            timeType = config.timeType;
+            _timeType = config.timeType;
 
             flushTime = config.flushTime;
             
-            Debug.Log(timeType);
+            Debug.Log(_timeType);
             
             Debug.Log(flushTime.ToString());
 
@@ -145,10 +162,9 @@ namespace UAJ
 
         public static IEnumerator FlushEvents()
         {
-            while (running)
+            while (_running)
             {
                 yield return new WaitForSeconds(flushTime);
-                Debug.Log("Flush");
                 foreach (var p in _persistance)
                 {
                     p.Flush();
@@ -158,7 +174,7 @@ namespace UAJ
 
         private static void DefaultInit()
         {
-            timeType = "POSIX";
+            _timeType = "POSIX";
             flushTime = 2f;
             _persistance.Add(new ServerPersistance("http://192.168.1.44/post", new JSONSerializer()));
             _persistance.Add(new DiskPersistance(Application.persistentDataPath, new BSONSerializer()));
@@ -170,7 +186,7 @@ namespace UAJ
         public static void End()
         {
             Debug.Log("Tracker End");
-            running = false;
+            _running = false;
             TrackEvent(new EndGameEvent());
             foreach (IPersistance p in _persistance)
             {
@@ -181,6 +197,8 @@ namespace UAJ
 
         public static bool TrackEvent(TrackerEvent e)
         {
+            if(e._eventName != "PlayerPositionEvent")
+                Debug.Log(e._eventName);
             foreach (ITrackerAsset t in _activeTrackers)
             {
                 if (t.accept(e))
@@ -200,17 +218,22 @@ namespace UAJ
         public static string GetCurrentTelemetryTime()
         {
             string ret = "";
-            switch (timeType)
+            switch (_timeType)
             {
                 case "POSIX":
                     ret = "POSIX: "+ DateTimeOffset.Now.ToUnixTimeSeconds().ToString() + " " + DateTime.Now.ToString();
                     break;
                 case "UNITY":
-                    ret = "UNITY " + (Time.time - startTime).ToString() + " " + DateTime.Now.ToString();
+                    ret = "UNITY " + (Time.time - _startTime).ToString() + " " + DateTime.Now.ToString();
                     break;
             }
 
             return ret;
+        }
+
+        public static string GetSessionId()
+        {
+            return _sessionId;
         }
     }
 }
